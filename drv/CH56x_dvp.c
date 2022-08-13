@@ -1,32 +1,31 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : CH56x_dvp.c
-* Author             : WCH
-* Version            : V1.0
-* Date               : 2020/07/31
+* Author             : WCH, bvernoux
+* Version            : V1.0.1
+* Date               : 2022/08/13
 * Description
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Copyright (c) 2022 Benjamin VERNOUX
 * SPDX-License-Identifier: Apache-2.0
 *******************************************************************************/
-
 #include "CH56x_common.h"
-
 
 /*******************************************************************************
  * @fn     DVP_INTCfg
  *
- * @brief   DVP中断配置
+ * @brief  DVP interrupt configuration
  *
- * @param  s:  中断控制状态
-					ENABLE  - 使能相应中断
-					DISABLE - 关闭相应中断
-				   i:  中断类型
-					RB_DVP_IE_STP_FRM  - 帧结束中断
-					RB_DVP_IE_FIFO_OV  - 接收FIFO溢出中断
-					RB_DVP_IE_FRM_DONE - 帧结束中断
-					RB_DVP_IE_ROW_DONE - 行结束中断
-					RB_DVP_IE_STR_FRM  - 帧开始中断
+ * @param  s: Interrupt control state
+				ENABLE  - Enable the corresponding interrupt
+				DISABLE - Disable the corresponding interrupt
+		   i:  Interrupt type
+				RB_DVP_IE_STP_FRM  - End of frame interrupt
+				RB_DVP_IE_FIFO_OV  - Receive FIFO overflow interrupt
+				RB_DVP_IE_FRM_DONE - End of frame interrupt
+				RB_DVP_IE_ROW_DONE - End-of-line(row) break
+				RB_DVP_IE_STR_FRM  - Start of frame interrupt
  *
- * @return  None
+ * @return None
  **/
 void DVP_INTCfg( uint8_t s,  uint8_t i )
 {
@@ -43,21 +42,21 @@ void DVP_INTCfg( uint8_t s,  uint8_t i )
 /*******************************************************************************
  * @fn    DVP_Mode
  *
- * @brief  DVP模式
+ * @brief DVP mode
  *
- * @param  s:  数据位宽
-					RB_DVP_D8_MOD  - 8位模式
-					RB_DVP_D10_MOD - 10位模式
-					RB_DVP_D12_MOD - 12位模式
-				   i:  压缩数据模式
-					Video_Mode - 使能视频模式
-					JPEG_Mode  - 使能JPEG模式
+ * @param s:  Data bit width
+			RB_DVP_D8_MOD  - 8-bit mode
+			RB_DVP_D10_MOD - 10-bit mode
+			RB_DVP_D12_MOD - 12-bit mode
+		  i:  Compressed Data Mode
+			Video_Mode - Enable video mode
+			JPEG_Mode  - Enable JPEG mode
  *
  * @return  None
  */
 void DVP_Mode( uint8_t s,  DVP_Data_ModeTypeDef i)
 {
-	R8_DVP_CR0 &= ~RB_DVP_MSK_DAT_MOD;   //恢复默认模式8bit模式
+	R8_DVP_CR0 &= ~RB_DVP_MSK_DAT_MOD; // Restore default mode 8bit mode
 
 	if(s)
 	{
@@ -81,17 +80,17 @@ void DVP_Mode( uint8_t s,  DVP_Data_ModeTypeDef i)
 /*******************************************************************************
  * @fn      DVP_Cfg
  *
- * @brief   DVP配置
+ * @brief   DVP configuration
  *
- * @param   s:  DMA使能控制
-					DVP_DMA_Enable  - DMA使能
-					DVP_DMA_Disable - DMA失能
-				   i:  标志与FIFO清除控制
-					DVP_FLAG_FIFO_RESET_Enable  - 复位标志与FIFO
-                    DVP_FLAG_FIFO_RESET_Disable - 取消复位操作
-				   j:  接收逻辑复位控制
-					DVP_RX_RESET_Enable - 复位接收逻辑电路
-					DVP_RX_RESET_Disable - 取消复位操作
+ * @param   s:  DMA enable control
+				DVP_DMA_Enable  - DMA enable
+				DVP_DMA_Disable - DMA disable
+		    i:  Flags and FIFO Clear Control
+				DVP_FLAG_FIFO_RESET_Enable  - Enable Reset Flag and FIFO
+				DVP_FLAG_FIFO_RESET_Disable - Disable Reset Flag and FIFO
+		    j:  Receive logic reset control
+				DVP_RX_RESET_Enable - Enable Reset the receive logic circuit
+				DVP_RX_RESET_Disable - Disable Reset the receive logic circuit
  *
  * @return   None
  */
@@ -134,3 +133,4 @@ void DVP_Cfg( DVP_DMATypeDef s,  DVP_FLAG_FIFO_RESETTypeDef i, DVP_RX_RESETTypeD
 	}
 
 }
+
