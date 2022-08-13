@@ -320,13 +320,13 @@ void UART3_ByteTrigCfg( UARTByteTRIGTypeDef b )
  * @brief  Serial port interrupt configuration
  *
  * @param  s - Interrupt control state
- *					ENABLE  - Enable the corresponding interrupt
- *					DISABLE - Disable the corresponding interrupt
+ *				ENABLE  - Enable the corresponding interrupt
+ *				DISABLE - Disable the corresponding interrupt
  *		   i - Interrupt type
- *					RB_IER_MODEM_CHG  - Modem Input Change Interrupt Enable bit (only UART0 support£©
- *					RB_IER_LINE_STAT  - Receive Line Status Interrupt
- *					RB_IER_THR_EMPTY  - Transmit Holding Register Empty Interrupt
- *					RB_IER_RECV_RDY   - Receive data interrupt
+ *				RB_IER_MODEM_CHG  - Modem Input Change Interrupt Enable bit (only UART0 supported)
+ *				RB_IER_LINE_STAT  - Receive Line Status Interrupt
+ *				RB_IER_THR_EMPTY  - Transmit Holding Register Empty Interrupt
+ *				RB_IER_RECV_RDY   - Receive data interrupt
  * @return   None
  **/
 void UART0_INTCfg( uint8_t s,  uint8_t i )
@@ -348,13 +348,13 @@ void UART0_INTCfg( uint8_t s,  uint8_t i )
  * @brief  Serial port interrupt configuration
  *
  * @param  s - Interrupt control state
- *					ENABLE  - Enable the corresponding interrupt
- *					DISABLE - Disable the corresponding interrupt
+ *				ENABLE  - Enable the corresponding interrupt
+ *				DISABLE - Disable the corresponding interrupt
  *		   i -  Interrupt type
- *					RB_IER_MODEM_CHG  - Modem Input Change Interrupt Enable bit (only UART0 support£©
- *					RB_IER_LINE_STAT  - Receive Line Status Interrupt
- *					RB_IER_THR_EMPTY  - Transmit Holding Register Empty Interrupt
- *					RB_IER_RECV_RDY   - Receive data interrupt
+ *				RB_IER_MODEM_CHG  - Modem Input Change Interrupt Enable bit (only UART0 supported)
+ *				RB_IER_LINE_STAT  - Receive Line Status Interrupt
+ *				RB_IER_THR_EMPTY  - Transmit Holding Register Empty Interrupt
+ *				RB_IER_RECV_RDY   - Receive data interrupt
  *
  * @return   None
  **/
@@ -377,13 +377,13 @@ void UART1_INTCfg( uint8_t s,  uint8_t i )
  * @brief  Serial port interrupt configuration
  *
  * @param  s - Interrupt control state
- *					ENABLE  - Enable the corresponding interrupt
- *					DISABLE - Disable the corresponding interrupt
+ *				ENABLE  - Enable the corresponding interrupt
+ *				DISABLE - Disable the corresponding interrupt
  *		   i -  Interrupt type
- *					RB_IER_MODEM_CHG  - Modem Input Change Interrupt Enable bit (only UART0 support£©
- *					RB_IER_LINE_STAT  - Receive Line Status Interrupt
- *					RB_IER_THR_EMPTY  - Transmit Holding Register Empty Interrupt
- *					RB_IER_RECV_RDY   - Receive data interrupt
+ *				RB_IER_MODEM_CHG  - Modem Input Change Interrupt Enable bit (only UART0 supported)
+ *				RB_IER_LINE_STAT  - Receive Line Status Interrupt
+ *				RB_IER_THR_EMPTY  - Transmit Holding Register Empty Interrupt
+ *				RB_IER_RECV_RDY   - Receive data interrupt
  *
  * @return   None
  **/
@@ -406,13 +406,13 @@ void UART2_INTCfg( uint8_t s,  uint8_t i )
  * @brief  Serial port interrupt configuration
  *
  * @param  s - Interrupt control state
- *					ENABLE  - Enable the corresponding interrupt
- *					DISABLE - Disable the corresponding interrupt
+ *				ENABLE  - Enable the corresponding interrupt
+ *				DISABLE - Disable the corresponding interrupt
  *		   i -  Interrupt type
- *					RB_IER_MODEM_CHG  - Modem Input Change Interrupt Enable bit (only UART0 support£©
- *					RB_IER_LINE_STAT  - Receive Line Status Interrupt
- *					RB_IER_THR_EMPTY  - Transmit Holding Register Empty Interrupt
- *					RB_IER_RECV_RDY   - Receive data interrupt
+ *				RB_IER_MODEM_CHG  - Modem Input Change Interrupt Enable bit (only UART0 supported)
+ *				RB_IER_LINE_STAT  - Receive Line Status Interrupt
+ *				RB_IER_THR_EMPTY  - Transmit Holding Register Empty Interrupt
+ *				RB_IER_RECV_RDY   - Receive data interrupt
  *
  * @return   None
  **/
