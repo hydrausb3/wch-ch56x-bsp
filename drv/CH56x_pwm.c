@@ -15,7 +15,7 @@
  *
  * @brief  PWM0-PWM3 Reference Clock Configuration
  *
- * @param  cyc: 
+ * @param  cyc:
                Refer to PWMX_CycleTypeDef
  *
  * @return None
