@@ -1,29 +1,27 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : CH56x_pwr.c
-* Author             : WCH
-* Version            : V1.0
-* Date               : 2020/07/31
+* Author             : WCH, bvernoux
+* Version            : V1.0.1
+* Date               : 2022/08/13
 * Description
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Copyright (c) 2022 Benjamin VERNOUX
 * SPDX-License-Identifier: Apache-2.0
 *******************************************************************************/
-
 #include "CH56x_common.h"
-
 
 /*******************************************************************************
  * @fn     PWR_PeriphClkCfg
  *
- * @brief  外设时钟控制位
- * @param  s -
- *                  ENABLE  - 打开外设时钟
- *                  DISABLE - 关闭外设时钟
- *                  perph -
- *                     please refer to Peripher CLK control bit define
-
- * @return   None
+ * @brief  Peripheral Clock Control Bits
+ * @param  s:
+ *           ENABLE  - Turn on peripheral clock
+ *           DISABLE - Turn off peripheral clocks
+ *         perph:
+ *           please refer to Peripher CLK control bit define
+ * @return None
  */
-void PWR_PeriphClkCfg( uint8_t s, uint16_t perph )
+void PWR_PeriphClkCfg(uint8_t s, uint16_t perph)
 {
 	if( s == DISABLE )
 	{
@@ -43,18 +41,18 @@ void PWR_PeriphClkCfg( uint8_t s, uint16_t perph )
 /*******************************************************************************
  * @fn     PWR_PeriphWakeUpCfg
  *
- * @brief  睡眠唤醒源配置
+ * @brief  Sleep wake source configuration
  *
- * @param  s -
- *                  ENABLE  - 打开此外设睡眠唤醒功能
- *                  DISABLE - 关闭此外设睡眠唤醒功能
- *         perph -
- *                 RB_SLP_USBHS_WAKE -  USB2.0为唤醒源
- *                 RB_SLP_USBSS_WAKE -  USB3.0为唤醒源
- *                 RB_SLP_GPIO_WAKE  -  GPIO为唤醒源
- *                 RB_SLP_ETH_WAKE   -  ETH为唤醒源
- *                 ALL              -  以上所有
- * @return   None
+ * @param  s:
+ *           ENABLE  - Turn on the sleep-wake function of this external device
+ *           DISABLE - Disable the sleep-wake function of this peripheral
+ *         perph:
+ *           RB_SLP_USBHS_WAKE - USB2.0 is the wake-up source
+ *           RB_SLP_USBSS_WAKE - USB3.0 is the wake-up source
+ *           RB_SLP_GPIO_WAKE  - GPIO is the wake-up source
+ *           RB_SLP_ETH_WAKE   - ETH is the wake-up source
+ *           ALL              -  All of above
+ * @return None
  */
 void PWR_PeriphWakeUpCfg( uint8_t s, uint16_t perph )
 {
@@ -76,50 +74,42 @@ void PWR_PeriphWakeUpCfg( uint8_t s, uint16_t perph )
 /*******************************************************************************
  * @fn     LowPower_Idle
  *
- * @brief  低功耗-Idle模式
+ * @brief  Low Power - Idle Mode
  *
- * @return   None
+ * @return None
  */
 void LowPower_Idle( void )
 {
-
-	PFIC->SCTLR &= ~1<<2;				// 设置内核PFIC_SCTLR寄存器的SleepDeep字段为0
-	__WFI();                            // 设置唤醒条件后执行__WFI()
-
+	PFIC->SCTLR &= ~1<<2; // Set the SleepDeep field of the core PFIC_SCTLR register to 0
+	__WFI(); // Execute __WFI() after setting the wake-up condition
 }
 
 /*******************************************************************************
  * @fn     LowPower_Halt
  *
- * @brief  低功耗-Halt模式
+ * @brief  Low Power - Halt Mode
  *
- * @return   None
+ * @return None
  */
-void LowPower_Halt( void )
+void LowPower_Halt(void)
 {
-
-	PFIC->SCTLR |= 1<<2;                      // 设置内核PFIC_SCTLR寄存器的SleepDeep字段为1
-	R8_SLP_POWER_CTRL |= RB_SLP_USBHS_PWRDN;  // RB_SLP_USBHS_PWRDN置1
-	__WFI();                                  // 设置唤醒条件后执行__WFI()
+	PFIC->SCTLR |= 1<<2;                      // Set the SleepDeep field of the core PFIC_SCTLR register to 1
+	R8_SLP_POWER_CTRL |= RB_SLP_USBHS_PWRDN;  // RB_SLP_USBHS_PWRDN is set to 1
+	__WFI();                                  // Execute __WFI() after setting the wake-up condition
 }
 
 /*******************************************************************************
  * @fn     LowPower_Sleep
  *
- * @brief  低功耗-Sleep模式
+ * @brief  Low Power - Sleep Mode
  *
- * @return   None
+ * @return None
  */
-void LowPower_Sleep( void )
+void LowPower_Sleep(void)
 {
-
-	PFIC->SCTLR |= 1<<2;                      // 设置内核PFIC_SCTLR寄存器的SleepDeep字段为1
-	R8_SLP_POWER_CTRL |= RB_SLP_USBHS_PWRDN;  // RB_SLP_USBHS_PWRDN置1
-	R8_SLP_WAKE_CTRL &= ~RB_SLP_USBSS_WAKE;   // RB_SLP_USBSS_WAKE置0
-	__WFI();                                  // 设置唤醒条件后执行__WFI()
-
+	PFIC->SCTLR |= 1<<2;                      // Set the SleepDeep field of the core PFIC_SCTLR register to 1
+	R8_SLP_POWER_CTRL |= RB_SLP_USBHS_PWRDN;  // RB_SLP_USBHS_PWRDN is set to 1
+	R8_SLP_WAKE_CTRL &= ~RB_SLP_USBSS_WAKE;   // RB_SLP_USBSS_WAKE is set to 0
+	__WFI();                                  // Execute __WFI() after setting the wake-up condition
 }
-
-
-
 
