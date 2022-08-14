@@ -1,39 +1,38 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : CH56x_gpio.c
-* Author             : WCH
-* Version            : V1.0
-* Date               : 2020/07/31
+* Author             : WCH, bvernoux
+* Version            : V1.0.1
+* Date               : 2022/08/13
 * Description
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Copyright (c) 2022 Benjamin VERNOUX
 * SPDX-License-Identifier: Apache-2.0
 *******************************************************************************/
-
 #include "CH56x_common.h"
-
 
 /*******************************************************************************
  * @fn     GPIOA_ModeCfg
  *
- * @brief  GPIOA端口引脚模式配置
+ * @brief  GPIOA port pin mode configuration
  *
- * @param  pin -  PA0-PA23
- *					GPIO_Pin_0 - GPIO_Pin_15
- *		   mode -
- *					GPIO_ModeIN_Floating       -  浮空输入/高阻输入
- *					GPIO_ModeIN_PU_NSMT        -  带上拉电阻的输入
- *					GPIO_ModeIN_PD_NSMT        -  带下拉电阻的输入
- *					GPIO_ModeIN_PU_SMT         -  带上拉电阻的施密特输入
- *					GPIO_ModeIN_PD_SMT         -  带下拉电阻的施密特输
- *					GPIO_Slowascent_PP_8mA     -  低斜率推挽输出，驱动能力 8mA 级别
- *					GPIO_Slowascent_PP_16mA    -  低斜率推挽输出，驱动能力 16mA 级别
- *					GPIO_Highspeed_PP_8mA      -  快速推挽输出，驱动能力 8mA 级别
- *					GPIO_Highspeed_PP_16mA     -  快速推挽输出，驱动能力 16mA 级别
- *					GPIO_ModeOut_OP_8mA        -  推挽输出最大8mA
- *					GPIO_ModeOut_OP_16mA       -  推挽输出最大16mA
+ * @param  pin:  PA0-PA23
+ *               GPIO_Pin_0 - GPIO_Pin_23
+ *         mode:
+ *               GPIO_ModeIN_Floating - floating input/high impedance input
+ *               GPIO_ModeIN_PU_NSMT - Input with pull-up resistor
+ *               GPIO_ModeIN_PD_NSMT - Input with pull-down resistor
+ *               GPIO_ModeIN_PU_SMT - Schmitt input with pull-up resistor
+ *               GPIO_ModeIN_PD_SMT - Schmitt input with pull-down resistor
+ *               GPIO_Slowascent_PP_8mA - low slope push-pull output, drive capability 8mA level
+ *               GPIO_Slowascent_PP_16mA - low slope push-pull output, drive capability 16mA level
+ *               GPIO_Highspeed_PP_8mA - fast push-pull output, drive capability 8mA level
+ *               GPIO_Highspeed_PP_16mA - fast push-pull output, drive capability 16mA level
+ *               GPIO_ModeOut_OP_8mA - push-pull output max 8mA
+ *               GPIO_ModeOut_OP_16mA - push-pull output max 16mA
  *
- * @return   None
+ * @return None
  */
-void GPIOA_ModeCfg( uint32_t pin, GPIOModeTypeDef mode )
+void GPIOA_ModeCfg(uint32_t pin, GPIOModeTypeDef mode)
 {
 	switch(mode)
 	{
@@ -119,27 +118,26 @@ void GPIOA_ModeCfg( uint32_t pin, GPIOModeTypeDef mode )
 /*******************************************************************************
  * @fn     GPIOB_ModeCfg
  *
- * @brief  GPIOB端口引脚模式配置
+ * @brief  GPIOB port pin mode configuration
  *
- * @param  pin -  PB0-PB24
- *					GPIO_Pin_0 - GPIO_Pin_24
- *		   mode -
- *					GPIO_ModeIN_Floating       -  浮空输入/高阻输入
- *					GPIO_ModeIN_PU_NSMT        -  带上拉电阻的输入
- *					GPIO_ModeIN_PD_NSMT        -  带下拉电阻的输入
- *					GPIO_ModeIN_PU_SMT         -  带上拉电阻的施密特输入
- *					GPIO_ModeIN_PD_SMT         -  带下拉电阻的施密特输
- *					GPIO_Slowascent_PP_8mA     -  低斜率推挽输出，驱动能力 8mA 级别
- *					GPIO_Slowascent_PP_16mA    -  低斜率推挽输出，驱动能力 16mA 级别
- *					GPIO_Highspeed_PP_8mA      -  快速推挽输出，驱动能力 8mA 级别
- *					GPIO_Highspeed_PP_16mA     -  快速推挽输出，驱动能力 16mA 级别
- *					GPIO_ModeOut_OP_8mA        -  推挽输出最大8mA
- *					GPIO_ModeOut_OP_16mA       -  推挽输出最大16mA
- *
- * @return   None
+ * @param  pin: PB0-PB24
+ *              GPIO_Pin_0 - GPIO_Pin_24
+ *         mode:
+ *              GPIO_ModeIN_Floating - floating input/high impedance input
+ *              GPIO_ModeIN_PU_NSMT - Input with pull-up resistor
+ *              GPIO_ModeIN_PU_NSMT - Input with pull-down resistor
+ *              GPIO_ModeIN_PU_SMT - Schmitt input with pull-up resistor
+ *              GPIO_ModeIN_PD_SMT - Schmitt input with pull-down resistor
+ *              GPIO_Slowascent_PP_8mA - low slope push-pull output, drive capability 8mA level
+ *              GPIO_Slowascent_PP_16mA - low slope push-pull output, drive capability 16mA level
+ *              GPIO_Highspeed_PP_8mA - fast push-pull output, drive capability 8mA level
+ *              GPIO_Highspeed_PP_16mA - fast push-pull output, drive capability 16mA level
+ *              GPIO_ModeOut_OP_8mA - push-pull output max 8mA
+ *              GPIO_ModeOut_OP_16mA - push-pull output max 16mA
+ * @return None
  */
 
-void GPIOB_ModeCfg( uint32_t pin, GPIOModeTypeDef mode )
+void GPIOB_ModeCfg(uint32_t pin, GPIOModeTypeDef mode)
 {
 	switch(mode)
 	{
@@ -225,40 +223,40 @@ void GPIOB_ModeCfg( uint32_t pin, GPIOModeTypeDef mode )
 /*******************************************************************************
  * @fn     GPIOA_ITModeCfg
  *
- * @brief  GPIOA引脚中断模式配置
+ * @brief  GPIOA pin interrupt mode configuration
  *
- * @param  pin - PA2-PA4
- *		   mode -
- *					GPIO_ITMode_LowLevel   -  低电平触发
- *					GPIO_ITMode_HighLevel  -  高电平触发
- *					GPIO_ITMode_FallEdge   -  下降沿触发
- *					GPIO_ITMode_RiseEdge   -  上升沿触发
+ * @param  pin:   PA2-PA4
+ *         mode:
+ *               GPIO_ITMode_LowLevel  - low level trigger
+ *               GPIO_ITMode_HighLevel - high level trigger
+ *               GPIO_ITMode_FallEdge  - falling edge trigger
+ *               GPIO_ITMode_RiseEdge  - rising edge trigger
  *
  * @return   None
  */
-void GPIOA_ITModeCfg( uint32_t pin, GPIOITModeTpDef mode )
+void GPIOA_ITModeCfg(uint32_t pin, GPIOITModeTpDef mode)
 {
-	switch( mode )
+	switch(mode)
 	{
-		case GPIO_ITMode_LowLevel:		// 低电平触发
+		case GPIO_ITMode_LowLevel:
 			R32_PA_DIR &= ~pin;
 			R8_GPIO_INT_MODE &= ~(pin>>2);
 			R8_GPIO_INT_POLAR &= ~(pin>>2);
 			break;
 
-		case GPIO_ITMode_HighLevel:		// 高电平触发
+		case GPIO_ITMode_HighLevel:
 			R32_PA_DIR &= ~pin;
 			R8_GPIO_INT_MODE &= ~(pin>>2);
 			R8_GPIO_INT_POLAR |= (pin>>2);
 			break;
 
-		case GPIO_ITMode_FallEdge:		// 下降沿触发
+		case GPIO_ITMode_FallEdge:
 			R32_PA_DIR &= ~pin;
 			R8_GPIO_INT_MODE |= (pin>>2);
 			R8_GPIO_INT_POLAR &= ~(pin>>2);
 			break;
 
-		case GPIO_ITMode_RiseEdge:		// 上升沿触发
+		case GPIO_ITMode_RiseEdge:
 			R32_PA_DIR &= ~pin;
 			R8_GPIO_INT_MODE |= (pin>>2);
 			R8_GPIO_INT_POLAR |= (pin>>2);
@@ -274,14 +272,14 @@ void GPIOA_ITModeCfg( uint32_t pin, GPIOITModeTpDef mode )
 /*******************************************************************************
  * @fn     GPIOB_ITModeCfg
  *
- * @brief  GPIOB引脚中断模式配置
+ * @brief  GPIOB pin interrupt mode configuration
  *
- * @param  pin - PB2-PB4
- *		   mode -
- *					GPIO_ITMode_LowLevel   -  低电平触发
- *					GPIO_ITMode_HighLevel  -  高电平触发
- *					GPIO_ITMode_FallEdge   -  下降沿触发
- *					GPIO_ITMode_RiseEdge   -  上升沿触发
+ * @param  pin: PB3, PB4, PB11, PB12, PB15
+ *         mode:
+ *               GPIO_ITMode_LowLevel  - low level trigger
+ *               GPIO_ITMode_HighLevel - high level trigger
+ *               GPIO_ITMode_FallEdge  - falling edge trigger
+ *               GPIO_ITMode_RiseEdge  - rising edge trigger
  *
  * @return   None
  */
@@ -290,7 +288,7 @@ void GPIOB_ITModeCfg( uint32_t pin, GPIOITModeTpDef mode )
 {
 	switch( mode )
 	{
-		case GPIO_ITMode_LowLevel:		// 低电平触发
+		case GPIO_ITMode_LowLevel:
 			if(pin==3)
 			{
 				R32_PB_DIR &= ~(1<<3);
@@ -333,7 +331,7 @@ void GPIOB_ITModeCfg( uint32_t pin, GPIOITModeTpDef mode )
 			}
 			break;
 
-		case GPIO_ITMode_HighLevel:		// 高电平触发
+		case GPIO_ITMode_HighLevel:
 			if(pin==3)
 			{
 				R32_PB_DIR &= ~(1<<3);
@@ -376,7 +374,7 @@ void GPIOB_ITModeCfg( uint32_t pin, GPIOITModeTpDef mode )
 			}
 			break;
 
-		case GPIO_ITMode_FallEdge:		// 下降沿触发
+		case GPIO_ITMode_FallEdge:
 			if(pin==3)
 			{
 				R32_PB_DIR &= ~(1<<3);
@@ -420,7 +418,7 @@ void GPIOB_ITModeCfg( uint32_t pin, GPIOITModeTpDef mode )
 			break;
 
 
-		case GPIO_ITMode_RiseEdge:		// 上升沿触发
+		case GPIO_ITMode_RiseEdge:
 			if(pin==3)
 			{
 				R32_PB_DIR &= ~(1<<3);
@@ -471,36 +469,36 @@ void GPIOB_ITModeCfg( uint32_t pin, GPIOITModeTpDef mode )
 /*******************************************************************************
  * @fn     GPIOPinRemap
  *
- * @brief  外设功能引脚映射
+ * @brief  Peripheral Function Pin Mapping
  *
- * @param  s -
- *					ENABLE  - 引脚映射
- *					DISABLE - 默认引脚
- *		   perph -
- *					RB_PIN_UART0  -  RXD0 -  PB5 ->  PA5
- *					              -  TXD0 -  PB6 ->  PA6
- *					RB_PIN_TMR2	  -  TMR2/PWM6/CAP2 -  PA4 ->  PB3
- *					RB_PIN_TMR1	  -  TMR1/PWM5/CAP1 -  PB15 ->  PB0
- *					RB_PIN_MII	  -  Ethernet -  RMII ->  RGMII
- * @return   None
+ * @param  s:
+ *           ENABLE  - pin map
+ *           DISABLE - default pin
+ *         perph:
+ *           RB_PIN_UART0 - RXD0 - PB5 -> PA5
+ *                        - TXD0 - PB6 -> PA6
+ *           RB_PIN_TMR2  - TMR2/PWM6/CAP2 - PA4 -> PB3
+ *           RB_PIN_TMR1  - TMR1/PWM5/CAP1 - PB15 -> PB0
+ *           RB_PIN_MII   - Ethernet - RMII -> RGMII
+ * @return None
  */
-void GPIOPinRemap( uint8_t s, uint16_t perph )
+void GPIOPinRemap(uint8_t s, uint16_t perph)
 {
-	if( s )     R8_PIN_ALTERNATE |= perph;
-	else        R8_PIN_ALTERNATE &= ~perph;
+	if( s ) R8_PIN_ALTERNATE |= perph;
+	else R8_PIN_ALTERNATE &= ~perph;
 }
 
 /*******************************************************************************
  * @fn     GPIOMco
  *
- * @brief  GPIO MCO模式配置
+ * @brief  GPIO MCO Mode configuration
  *
- * @param   s - ENABLE\DISABLE
- *          mode-
- *				   	MCO_125,
- *	                MCO_25,
- *	                MCO_2d5,
- * @return   None
+ * @param   s: ENABLE \ DISABLE
+ *          mode:
+ *                MCO_125,
+ *                MCO_25,
+ *                MCO_2d5,
+ * @return None
  */
 void GPIOMco( uint8_t s, uint16_t freq )
 {
@@ -515,7 +513,5 @@ void GPIOMco( uint8_t s, uint16_t freq )
 	}
 	else R8_CLK_MOD_AUX &= ~(1<<4);
 }
-
-
 
 
