@@ -1,10 +1,11 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : CH56x_bsp.c
 * Author             : bvernoux
-* Version            : V1.0.1
-* Date               : 2022/08/06
+* Version            : V1.1.0
+* Date               : 2022/08/20
 * Description        : This file contains all the functions prototypes for
-*                      Board Support Package(BSP) related to Init/Delays/Timebase
+*                      Board Support Package(BSP) related to
+*                      GPIO/Init/Delays/Timebase
 *                      DisableInterrupts/EnableInterrupts(see .h macros)
 * Copyright (c) 2022 Benjamin VERNOUX
 * SPDX-License-Identifier: Apache-2.0
@@ -159,16 +160,17 @@ inline uint64_t bsp_get_tick(void)
  *         This function is thread-safe
  *         Precondition: call to bsp_init
  *
+ *         Delay in cycles using SysTick->CNT (64bits)
+ *         nb_cycles shall be < 4 294 967 295 => (2^32)-1
+ *         Accuracy about 9 cycles
+ *         Accuracy 75ns (with systemclck 120 MHz)
+ *         Accuracy 600ns (with systemclck 15 MHz) => For >32cycles
+ *         => 1us = 2.33us (with systemclck 15 MHz)
+ *
  * @param  nb_cycles
  *
  * @return  None
  **/
-// Delay in cycles using SysTick->CNT (64bits)
-// nb_cycles shall be < 4 294 967 295 => (2^32)-1
-// Accuracy about 9 cycles
-// Accuracy 75ns (with systemclck 120 MHz)
-// Accuracy 600ns (with systemclck 15 MHz) => For >32cycles
-// => 1us = 2.33us (with systemclck 15 MHz)
 void bsp_wait_nb_cycles(uint32_t nb_cycles)
 {
 	uint64_t start = bsp_get_SysTickCNT();
@@ -215,15 +217,16 @@ void bsp_wait_nb_cycles_sw(uint32_t nb_cycles)
  *         This function is thread-safe
  *         Precondition: call to bsp_init
  *
- * @param  us
+ *         Delay in microsecond using SysTick->CNT (64bits)
+ *         Accuracy about 19 cycles
+ *         Accuracy 158ns (with systemclck 120 MHz)
+ *         Accuracy 1267ns (with systemclck 15 MHz) => For >=3us
+ *         => 1us = 2.33us (with systemclck 15 MHz)
  *
- * @return  None
+ * @param  us: delay in microseconds
+ *
+ * @return None
  **/
-// Delay in microsecond using SysTick->CNT (64bits)
-// Accuracy about 19 cycles
-// Accuracy 158ns (with systemclck 120 MHz)
-// Accuracy 1267ns (with systemclck 15 MHz) => For >=3us
-// => 1us = 2.33us (with systemclck 15 MHz)
 void bsp_wait_us_delay(uint32_t us)
 {
 	uint64_t start = bsp_get_SysTickCNT();
@@ -255,14 +258,16 @@ void bsp_wait_us_delay(uint32_t us)
  * @brief  Delay, wait for N milliseconds
  *         This function is thread-safe
  *         Precondition: call to bsp_init
+ *
+ *         Delay in millisecond using SysTick->CNT (64bits)
+ *         Accuracy about 19 cycles
+ *         Accuracy 158ns (with systemclck 120 MHz)
+ *         Accuracy 1267ns (with systemclck 15 MHz)
+ *
  * @param  ms
  *
  * @return  None
  **/
-// Delay in millisecond using SysTick->CNT (64bits)
-// Accuracy about 19 cycles
-// Accuracy 158ns (with systemclck 120 MHz)
-// Accuracy 1267ns (with systemclck 15 MHz)
 void bsp_wait_ms_delay(uint32_t ms)
 {
 	uint64_t start = bsp_get_SysTickCNT();
@@ -285,5 +290,184 @@ void bsp_wait_ms_delay(uint32_t ms)
 		delta = start - curr; // SysTickCNT is decremented so comparison is inverted
 		if( delta > nb_cycles )
 			break;
+	}
+}
+
+/*******************************************************************************
+ * @fn     bsp_gpio_cfg
+ *
+ * @brief  Initializes GPIO Port Pin mode
+ *
+ * @param  gpioPortPin - GPIO to configure
+ *         mode - GPIO mode
+ *
+ * @return None
+ **/
+void bsp_gpio_cfg(e_bsp_PortPinType gpioPortPin, GPIOModeTypeDef mode)
+{
+	uint32_t pinBit = (gpioPortPin & BSP_PINBIT_MASK);
+	/* Read Port Pin */
+	if((gpioPortPin & BSP_PORTB_FLAG) == 0) // PA
+	{
+		GPIOA_ModeCfg(pinBit, mode);
+	}
+	else // PB
+	{
+		GPIOB_ModeCfg(pinBit, mode);
+	}
+}
+
+/*******************************************************************************
+ * @fn     bsp_gpio_read
+ *
+ * @brief  Read GPIO PortPin state
+ *         Precondition: call to bsp_gpio_cfg()
+ *
+ * @param  gpioPortPin - GPIO state to read
+ *
+ * @return 0 (pin low), !0 (pin high)
+ **/
+int bsp_gpio_read(e_bsp_PortPinType gpioPortPin)
+{
+	uint32_t pinBit = (gpioPortPin & BSP_PINBIT_MASK);
+	/* Read Port Pin */
+	if((gpioPortPin & BSP_PORTB_FLAG) == 0) // PA
+	{
+		return GPIOA_ReadPortPin(pinBit);
+	}
+	else // PB
+	{
+		return GPIOB_ReadPortPin(pinBit);
+	}
+}
+
+/*******************************************************************************
+ * @fn     bsp_gpio_set
+ *
+ * @brief  Set GPIO PortPin state
+ *         Precondition: call to bsp_gpio_cfg()
+ *
+ * @param  gpioPortPin - GPIO state to set to '1'
+ *
+ * @return None
+ **/
+void bsp_gpio_set(e_bsp_PortPinType gpioPortPin)
+{
+	uint32_t pinBit = (gpioPortPin & BSP_PINBIT_MASK);
+	/* Read Port Pin */
+	if((gpioPortPin & BSP_PORTB_FLAG) == 0) // PA
+	{
+		R32_PA_OUT |= pinBit;
+	}
+	else // PB
+	{
+		R32_PB_OUT |= pinBit;
+	}
+}
+
+/*******************************************************************************
+ * @fn     bsp_gpio_clr
+ *
+ * @brief  Read GPIO PortPin state
+ *         Precondition: call to bsp_gpio_cfg()
+ *
+ * @param  gpioPortPin - GPIO state to clear/reset to '0'
+ *
+ * @return None
+ **/
+void bsp_gpio_clr(e_bsp_PortPinType gpioPortPin)
+{
+	uint32_t pinBit = (gpioPortPin & BSP_PINBIT_MASK);
+	/* Read Port Pin */
+	if((gpioPortPin & BSP_PORTB_FLAG) == 0) // PA
+	{
+		R32_PA_CLR |= pinBit;
+	}
+	else // PB
+	{
+		R32_PB_CLR |= pinBit;
+	}
+}
+
+/*******************************************************************************
+ * @fn     bsp_sync2boards
+ *
+ * @brief  Synchronize 2x CH56x MCU connected together
+ *         Precondition:
+ *         - HOST / Main board shall have PB24 not populated
+ *         - DEVICE / Secondary board shall have PB24 populate (with Short/Jumper)
+ *
+ * @param  gpio1 - 1st GPIO to be used for synchronization
+ *         gpio2 - 2nd GPIO to be used for synchronization
+ *         type - Type of Board
+ *              - HOST / Main board shall have SWITCH not populated/not set
+ *              - DEVICE / Secondary board shall have SWITCH populated/set (with Short/Jumper)
+ *
+ * @return !=0 if success or 0 in case of error(timeout)
+ **/
+int bsp_sync2boards(e_bsp_PortPinType gpio1, e_bsp_PortPinType gpio2, e_bsp_TypeDef type)
+{
+	int i;
+	/******************************************/
+	/* Start Synchronization between 2 Boards */
+	/* SYNC_GPIO1 & SYNC_GPIO2 signals        */
+	/******************************************/
+	if(bsp_switch() == 0)
+	{
+		i = 0;
+		/* Configure gpio1 as input pull-down */
+		bsp_gpio_clr(gpio1);
+		bsp_gpio_cfg(gpio1, GPIO_ModeIN_PD_SMT); // Input
+		/* Configure gpio2 as output */
+		bsp_gpio_clr(gpio2);
+		bsp_gpio_cfg(gpio2, GPIO_Highspeed_PP_8mA); // Output
+		bsp_gpio_set(gpio2); // Set state to "1"
+		/* Wait Device Synchronization signal "1" (ACK) on gpio1 */
+		while(1)
+		{
+			if(i++ > BSP_SYNCHRO_TIMEOUT)
+			{
+				break;
+			}
+			if(bsp_gpio_read(gpio1) != 0)
+			{
+				break;
+			}
+		}
+	}
+	else
+	{
+		i = 0;
+		/* Configure gpio2 as input pull-down */
+		bsp_gpio_clr(gpio2);
+		bsp_gpio_cfg(gpio2, GPIO_ModeIN_PD_SMT); // Input
+		/* Configure gpio1 as output */
+		bsp_gpio_clr(gpio1);
+		bsp_gpio_cfg(gpio1, GPIO_Highspeed_PP_8mA); // Output
+		bsp_gpio_set(gpio1); // Set state to "1"
+		/* Wait Device Synchro signal "1" (ACK) on gpio2 */
+		while(1)
+		{
+			if(i++ > BSP_SYNCHRO_TIMEOUT)
+			{
+				break;
+			}
+			if(bsp_gpio_read(gpio2) != 0)
+			{
+				break;
+			}
+		}
+	}
+	/* Configure to safe state */
+	bsp_gpio_cfg(gpio1, GPIO_ModeIN_Floating); // Input
+	bsp_gpio_cfg(gpio2, GPIO_ModeIN_Floating); // Input
+
+	if(i >= BSP_SYNCHRO_TIMEOUT)
+	{
+		return 0; /* Timeout */
+	}
+	else
+	{
+		return i; // OK
 	}
 }
