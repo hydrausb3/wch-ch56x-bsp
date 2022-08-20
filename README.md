@@ -1,4 +1,4 @@
-# WCH CH56x BSP for HydraUSB3 v1 hardware
+# WCH CH56x BSP
 
 wch-ch56x-bsp repository contains open source code (see [LICENSE](LICENSE)) for WCH CH565/CH569 BSP with libraries(drivers)(see [drv](drv/)) mainly used for [HydraUSB3 v1 Hardware](https://github.com/hydrausb3/hydrausb3_hw).
 
