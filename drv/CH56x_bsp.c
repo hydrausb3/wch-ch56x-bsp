@@ -394,8 +394,8 @@ void bsp_gpio_clr(e_bsp_PortPinType gpioPortPin)
  *
  * @brief  Synchronize 2x CH56x MCU connected together
  *         Precondition:
- *         - HOST / Main board shall have PB24 not populated
- *         - DEVICE / Secondary board shall have PB24 populate (with Short/Jumper)
+ *         - HOST / Main board shall have SWITCH not populated
+ *         - DEVICE / Secondary board shall have SWITCH populate (with Short/Jumper)
  *
  * @param  gpio1 - 1st GPIO to be used for synchronization
  *         gpio2 - 2nd GPIO to be used for synchronization
