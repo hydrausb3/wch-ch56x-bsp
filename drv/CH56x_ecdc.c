@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : CH56x_ecdc.c
 * Author             : WCH, bvernoux
-* Version            : V1.0.1
-* Date               : 2022/08/13
+* Version            : V1.0.2
+* Date               : 2022/09/10
 * Description
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
 * Copyright (c) 2022 Benjamin VERNOUX
@@ -131,18 +131,27 @@ void ECDC_Excute(uint8_t excutemode, uint8_t endianmode)
  */
 void ECDC_SingleRegister(puint32_t pWdatbuff, puint32_t pRdatbuff)
 {
+	// Single encryption and decryption of original data register group (R32_ECDC_SGSD)
 	R32_ECDC_SGSD_127T96 = pWdatbuff[3]; // low address
 	R32_ECDC_SGSD_95T64 = pWdatbuff[2];
 	R32_ECDC_SGSD_63T32 = pWdatbuff[1];
 	R32_ECDC_SGSD_31T0 = pWdatbuff[0]; // high address
+	// CH569DS1_EN_v1_2.PDF Datasheet page 138
+	// Note: Internal encryption and decryption are performed at a fixed size of 128 bits. 
+	// When the write operation on the R32_ECDC_SGSD_31T0 register is completed, 
+	// the hardware automatically starts a single encryption/decryption conversion.
+	// RB_ECDC_IF_SINGLE indicates whether the conversion is completed.
 
 	while(!(R8_ECDC_INT_FG & RB_ECDC_IF_SINGLE));
 	R8_ECDC_INT_FG |= RB_ECDC_IF_SINGLE;
 
+	// Single encryption and decryption result register group (R32_ECDC_SGRT)
 	pRdatbuff[3] = R32_ECDC_SGRT_127T96;
 	pRdatbuff[2] = R32_ECDC_SGRT_95T64;
 	pRdatbuff[1] = R32_ECDC_SGRT_63T32;
 	pRdatbuff[0] = R32_ECDC_SGRT_31T0;
+	// CH569DS1_EN_v1_2.PDF Datasheet page 138
+	// Note: The encryption and decryption result data is stored in fixed big-endian mode, with 128bits structure
 }
 
 /*******************************************************************************
