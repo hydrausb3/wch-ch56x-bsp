@@ -52,7 +52,7 @@ typedef union
  * @fn      usb_descriptor_set_string_serial_number
  *
  * @brief   Set USB string descriptor serial number
- *          Precondition: call USB30D_init()
+ *          Precondition: call this API before to call USB30D_init()
  *
  * @param  serial_number: USB string descriptor serial number
  *
@@ -75,7 +75,7 @@ typedef struct
  * @fn      usb_descriptor_set_usb_vid_pid
  *
  * @brief   Set USB VID/PID
- *          Precondition: call USB30D_init()
+ *          Precondition: call this API before to call USB30D_init()
  *
  * @param  vid_pid: USB Vendor ID and Product ID
  *
