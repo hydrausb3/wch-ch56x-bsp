@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : CH56x_usb_desc_cmd.c
 * Author             : bvernoux
-* Version            : V1.0
-* Date               : 2022/08/20
+* Version            : V1.0.1
+* Date               : 2022/09/27
 * Description        :
 * Copyright (c) 2022 Benjamin VERNOUX
 * SPDX-License-Identifier: Apache-2.0
@@ -90,7 +90,7 @@ uint8_t USB_SS_DeviceDescriptor[LEN_USB_SS_DeviceDescriptor] =
  * @fn      usb_descriptor_set_usb_vid_pid
  *
  * @brief   Set USB VID/PID
- *          Precondition: call USB30D_init()
+ *          Precondition: call this API before to call USB30D_init()
  *
  * @param  vid_pid: USB Vendor ID and Product ID
  *
@@ -364,7 +364,7 @@ static const uint8_t htoa[16] = {'0','1','2','3','4','5','6','7','8','9','A','B'
  * @fn      usb_descriptor_set_string_serial_number
  *
  * @brief   Set USB string descriptor serial number
- *          Precondition: call USB30D_init()
+ *          Precondition: call this API before to call USB30D_init()
  *
  * @param  serial_number: USB string descriptor serial number
  *
