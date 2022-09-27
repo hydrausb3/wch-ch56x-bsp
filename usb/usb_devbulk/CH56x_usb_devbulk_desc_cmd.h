@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : CH56x_usb_devbulk_desc_cmd.h
 * Author             : bvernoux
-* Version            : V1.0
-* Date               : 2022/08/20
+* Version            : V1.0.1
+* Date               : 2022/09/27
 * Description        :
 * Copyright (c) 2022 Benjamin VERNOUX
 * SPDX-License-Identifier: Apache-2.0
