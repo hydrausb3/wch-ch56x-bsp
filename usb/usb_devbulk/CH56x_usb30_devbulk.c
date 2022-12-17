@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : CH56x_usb30_devbulk.c
 * Author             : WCH, bvernoux
-* Version            : V1.1
-* Date               : 2022/08/20
+* Version            : V1.1.1
+* Date               : 2022/12/11
 * Description 		 :
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
 * Copyright (c) 2022 Benjamin VERNOUX
@@ -904,7 +904,7 @@ __attribute__((interrupt("WCH-Interrupt-fast"))) void USBSS_IRQHandler(void)
 		USBSS->USB_STATUS = 8;
 		return;
 	}
-
+	// USB3 EP1 to EP7 management
 	uint8_t ep = (usb_status >> 8) & 7;
 	uint32_t ep_in = (usb_status >> 0xc) & 1;
 	if(ep != 0)
@@ -963,7 +963,7 @@ __attribute__((interrupt("WCH-Interrupt-fast"))) void USBSS_IRQHandler(void)
 		}
 		return;
 	}
-
+	// USB3 EP0 management
 	uint16_t req_len;
 	if(ep_in != 0)
 	{
@@ -999,9 +999,8 @@ __attribute__((interrupt("WCH-Interrupt-fast"))) void USBSS_IRQHandler(void)
 		return;
 	}
 	USBSS->UEP0_RX_CTRL = 0;
-	uint32_t uep0_dma = USBSS->UEP0_DMA;
-	uint8_t data_req = endp0RTbuff[uep0_dma];
-	if ((endp0RTbuff[uep0_dma] & 0x60) == 0)
+	uint8_t data_req = *((uint8_t*)endp0RTbuff);
+	if ((data_req & 0x60) == 0)
 	{
 		req_len = USB30_StandardReq();
 	}
