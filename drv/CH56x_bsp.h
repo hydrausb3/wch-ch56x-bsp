@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : CH56x_bsp.h
 * Author             : bvernoux
-* Version            : V1.1.0
-* Date               : 2022/08/20
+* Version            : V1.1.1
+* Date               : 2022/12/11
 * Description        : This file contains all the functions prototypes for
 *                      Board Support Package(BSP) related to Init/Delays/Timebase
 *                      DisableInterrupts/EnableInterrupts
@@ -49,8 +49,8 @@ SysTickU32_Type;
   */
 typedef enum
 {
-	BSP_HOST = 0, /* HOST = Primary/main board */
-	BSP_DEVICE = 1, /* DEVICE = Secondary board */
+	BSP_BOARD1 = 0, /* Primary/main board (usually on Top) */
+	BSP_BOARD2 = 1  /* Secondary board (usually on Bottom)*/
 } e_bsp_TypeDef;
 
 /* WCH CH56x Port Pin definition */
@@ -297,15 +297,13 @@ void bsp_gpio_clr(e_bsp_PortPinType gpioPortPin);
  * @fn     bsp_sync2boards
  *
  * @brief  Synchronize 2x CH56x boards connected together(one on top of another)
- *         Precondition:
- *         - HOST / Main board shall have PB24 not populated
- *         - DEVICE / Secondary board shall have PB24 populate (with Short/Jumper)
+ *         Precondition: call to bsp_init()
  *
  * @param  gpio1 - 1st GPIO to be used for synchronization
  *         gpio2 - 2nd GPIO to be used for synchronization
  *         type - Type of Board
- *              - HOST / Main board shall have PB24 not populated
- *              - DEVICE / Secondary board shall have PB24 populate (with Short/Jumper)
+ *              - BSP_BOARD1 / Main board (usually on Top)
+ *              - BSP_BOARD2 / Secondary board (usually on Bottom)
  *
  * @return !=0 if success or 0 in case of error(timeout)
  **/

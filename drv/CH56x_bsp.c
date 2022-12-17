@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : CH56x_bsp.c
 * Author             : bvernoux
-* Version            : V1.1.0
-* Date               : 2022/08/20
+* Version            : V1.1.1
+* Date               : 2022/12/11
 * Description        : This file contains all the functions prototypes for
 *                      Board Support Package(BSP) related to
 *                      GPIO/Init/Delays/Timebase
@@ -400,8 +400,8 @@ void bsp_gpio_clr(e_bsp_PortPinType gpioPortPin)
  * @param  gpio1 - 1st GPIO to be used for synchronization
  *         gpio2 - 2nd GPIO to be used for synchronization
  *         type - Type of Board
- *              - HOST / Main board shall have SWITCH not populated/not set
- *              - DEVICE / Secondary board shall have SWITCH populated/set (with Short/Jumper)
+ *              - BSP_BOARD1 / Main board (usually on Top)
+ *              - BSP_BOARD2 / Secondary board (usually on Bottom)
  *
  * @return !=0 if success or 0 in case of error(timeout)
  **/
@@ -410,9 +410,9 @@ int bsp_sync2boards(e_bsp_PortPinType gpio1, e_bsp_PortPinType gpio2, e_bsp_Type
 	int i;
 	/******************************************/
 	/* Start Synchronization between 2 Boards */
-	/* SYNC_GPIO1 & SYNC_GPIO2 signals        */
+	/* using gpio1 & gpio2 signals            */
 	/******************************************/
-	if(bsp_switch() == 0)
+	if(type == BSP_BOARD1)
 	{
 		i = 0;
 		/* Configure gpio1 as input pull-down */
@@ -435,7 +435,7 @@ int bsp_sync2boards(e_bsp_PortPinType gpio1, e_bsp_PortPinType gpio2, e_bsp_Type
 			}
 		}
 	}
-	else
+	else /* BSP_BOARD2 inverse gpio1 & gpio2 signals */
 	{
 		i = 0;
 		/* Configure gpio2 as input pull-down */
