@@ -11,6 +11,8 @@
 #ifndef __CH56x_UART_H__
 #define __CH56x_UART_H__
 
+#include "CH56xSFR.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
